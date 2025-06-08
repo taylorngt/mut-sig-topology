@@ -1,1 +1,4 @@
 .DS_Store
+/input_data
+/output_data
+/reference_data
