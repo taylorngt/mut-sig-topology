@@ -192,16 +192,6 @@ rule variant_region_filtering:
         "{input.mutect_variant_calls}"
 
 
-
-rule VCF_header_parsing:
-    input:
-        region_filtered_variant_calls= "output_data/region_filtered_variant_calls/{sampleID}.vcf.gz"
-    output:
-        temp_header = temp('output_data/temp_headers/{sampleID}_header.vcf')
-    shell:
-        'bcftools head {input.region_filtered_variant_calls} | '
-        'head -n -1 > {output.temp_header}'
-
 rule region_filtered_variant_unzipping:
     input:
         compressed_variants="output_data/region_filtered_variant_calls/{sampleID}.vcf.gz"
@@ -217,22 +207,9 @@ rule variant_annotation:
         nicotinamide_gene_panel= "input_data/gene_panels/nicotinamide_gene_panel.txt",      
         circadian_gene_panel = "input_data/gene_panels/circadian_gene_panel.txt"
     output:
-        headless_tiered_variants= temp("tiered_variant_calls/{sampleID}_headerless.vcf")
-        # gene_list= "gene_lists/{sampleID}_gene_list.txt"
+        tiered_variants= "output_data/tiered_variant_calls/{sampleID}_tiered.vcf"
     script:
         'scripts/VEP_API.py'
-
-
-
-rule VCF_header_replacement:
-    input:
-        temp_header = 'output_data/temp_headers/{sampleID}_header.vcf',
-        headerless_tiered_variants= "output_data/tiered_variant_calls/{sampleID}_headerless.vcf"
-    output:
-        tiered_variants= "output_data/tiered_variant_calls/{sampleID}_tiered.vcf"
-    shell:
-        'cat {input.temp_header} {input.headerless_tiered_variants} '
-        '> {output.tiered_variants}'
 
 
 

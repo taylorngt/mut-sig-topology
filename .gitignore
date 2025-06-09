@@ -2,3 +2,5 @@
 /input_data
 /output_data
 /reference_data
+/.snakemake/log
+/.snakemake/metadata

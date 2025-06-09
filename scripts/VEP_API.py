@@ -273,5 +273,5 @@ print(tier1df.head())
 #writing out tiered variant calls as vcf (noncompliant with vcf standards)
 vcf_write_out(
     tiered_df= tieredsampledf,
-    out_vcf= snakemake.output['headless_tiered_variants']
+    out_vcf= snakemake.output['tiered_variants']
     )
