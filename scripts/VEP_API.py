@@ -68,7 +68,7 @@ def post_vcf_annotator(vcf_df):
                 break
 
             except requests.exceptions.RequestException as e:
-                print(f'VCF Chunk: {chunk}/{total_chunks} Request Attempt {attempt+1} failed: {e}')
+                print(f'VCF Chunk: {chunk}/{total_chunks}; Request Attempt {attempt+1}/8 failed: {e}')
                 if attempt < MAX_RETRIES - 1:
                     time.sleep(RETRY_DELAY)
                 else:
@@ -159,8 +159,6 @@ def gene_panel_flagging(annotated_df, nicotinamide_gene_panel, circadian_gene_pa
                                 dtype="str", 
                                 header=0)
     circadian_assoc_genes = set(circadian_panel_df['Gene stable ID'])    
-
-    print(circadian_assoc_genes)
     
     gene_field_list = []
     transcript_field_list = []
@@ -217,10 +215,6 @@ def variant_tiering(annotated_df):
 
     return tiered_df
 
-# def gene_list_write_out(tiered_df, out_file):
-#     with open(out_file, 'w') as o:
-#         o.write('\n'.join(tiered_df['GENE']))
-
 
 
 
@@ -265,7 +259,6 @@ print(f'{sampleID} Tier 3: {len(tier3df)}')
 print(f'{sampleID} Tier 2: {len(tier2df)}')
 print(f'{sampleID} Tier 1: {len(tier1df)}')
 
-print(tier1df.head())
 
 #writing out list of involved genes (using official AT#G# format, not symbol)
 # gene_list_write_out(tiered_df=tieredsampledf[tieredsampledf['TIER'] != 5], out_file= snakemake.output['gene_list'])

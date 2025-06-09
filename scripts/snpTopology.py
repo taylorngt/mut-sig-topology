@@ -1,12 +1,10 @@
 from snakemake.script import snakemake
-import os
+
 import pandas as pd
 import matplotlib.pyplot as plt
-import argparse
 import statistics
 
 from Bio import SeqIO
-from Bio import Seq
 
 import deconstructSigs
 
@@ -575,6 +573,7 @@ elif snakemake.wildcards['method'] == 'CtoT':
 elif snakemake.wildcards['method'] == 'Sig11':
   passed_method = 'Sig11'
   passed_afModifier = False
+  deconstructSigs.Settings.verbose = False
 else:
   raise("Please select a valid topography calulation method. Options: TSTV or CtoT")
 
@@ -584,8 +583,6 @@ positions, topology = topology_mapping( sampleID= snakemake.wildcards['sampleID'
                                         reference= snakemake.input['reference_genome'],
                                         topology_plot= snakemake.output['topology_plot'],
                                         distribution_plot= snakemake.output['distribution_plot'],
-                                        #how do I handle plot writing with new snakemake directive??????
-                                        #plot_directory= f'{arguments.plotPath}/{sampleID}/{sampleID}{arguments.method}_w{arguments.windowSize}af{int(passed_afModifier)}',
                                         window_size= int(snakemake.wildcards['windowSize']), 
                                         AF_modifier= passed_afModifier)
 
