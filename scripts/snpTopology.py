@@ -90,8 +90,6 @@ def vcf_read_in(sampleID, in_vcf):
             genome_dict[chromosome] = genome_df[genome_df["chr"] == chromosome]
             genome_dict[chromosome] = genome_dict[chromosome].reset_index(drop=True)
             assigned += len(genome_dict[chromosome].index)
-        
-        print(f"{assigned}/{total} {sampleID} Variants Assigned")
 
         return genome_dict
 
